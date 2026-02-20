@@ -1,0 +1,649 @@
+:root {
+    --bg-dark: #0f1115;
+    --concrete: #2a2d33;
+    --iron-man-gold: #f5c542;
+    --iron-man-red: #8a0c0c;
+    --arc-blue: #00ffff;
+    --cap-blue: #004488;
+    --cap-red: #cc0000;
+    --cap-white: #d9d9d9;
+    --shield-metal: linear-gradient(135deg, #e6e6e6 0%, #8c8c8c 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    overflow: hidden;
+    font-family: 'Teko', sans-serif;
+    color: white;
+}
+
+.arena {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 10%, #2a3038 0%, #08090a 80%);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* --- Atmosphere --- */
+.snow-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPjxjaXJjbGUgY3g9IjIuNSIgY3k9IjIuNSIgcj0iMSIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==');
+    animation: fall 10s linear infinite;
+    z-index: 1;
+    opacity: 0.3;
+}
+
+.fog-layer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    z-index: 2;
+}
+
+@keyframes fall {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 100px 1000px;
+    }
+}
+
+/* --- UI --- */
+.ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.4);
+    transition: opacity 0.5s;
+}
+
+.title {
+    font-size: 8rem;
+    letter-spacing: 20px;
+    text-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeInTitle 2s forwards;
+    transform: scale(0.9);
+}
+
+#start-btn {
+    padding: 1rem 3rem;
+    font-size: 2rem;
+    background: transparent;
+    color: var(--cap-white);
+    border: 2px solid var(--cap-white);
+    font-family: 'Teko', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    letter-spacing: 5px;
+}
+
+#start-btn:hover {
+    background: var(--cap-white);
+    color: black;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes fadeInTitle {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* --- Characters Common --- */
+.character-container {
+    position: absolute;
+    bottom: 15%;
+    z-index: 10;
+    transition: transform 0.1s;
+}
+
+/* --- Iron Man --- */
+#iron-man {
+    right: 15%;
+    transform: translateX(200%);
+    /* Start off screen */
+}
+
+.iron-man-body {
+    position: relative;
+    width: 120px;
+    height: 220px;
+}
+
+.iron-man-body .head {
+    width: 50px;
+    height: 70px;
+    background: var(--iron-man-gold);
+    border: 4px solid var(--iron-man-red);
+    border-radius: 12px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.iron-man-body .head::before {
+    /* Eyes */
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 5px;
+    width: 32px;
+    height: 6px;
+    background: var(--arc-blue);
+    box-shadow: 0 0 10px var(--arc-blue);
+}
+
+.iron-man-body .torso {
+    width: 90px;
+    height: 90px;
+    background: var(--iron-man-red);
+    margin: -5px auto 0;
+    clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arc-reactor {
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--arc-blue), 0 0 30px var(--arc-blue);
+    position: relative;
+    z-index: 2;
+}
+
+.iron-man-body .arm {
+    width: 35px;
+    height: 100px;
+    background: var(--iron-man-gold);
+    border: 4px solid var(--iron-man-red);
+    position: absolute;
+    top: 70px;
+}
+
+.iron-man-body .arm.left {
+    left: -30px;
+    transform: rotate(15deg);
+}
+
+.iron-man-body .arm.right {
+    right: -30px;
+    transform: rotate(-15deg);
+    /* Idle state */
+    height: 90px;
+}
+
+.iron-man-body .legs {
+    width: 40px;
+    height: 110px;
+    background: var(--iron-man-red);
+    margin: -10px auto 0;
+    border-left: 2px solid black;
+    box-shadow: inset 5px 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Repulsor Attack State --- */
+#iron-man.attack .arm.right {
+    transform: rotate(-90deg) translateY(10px);
+    /* Raise arm */
+    transition: transform 0.3s ease-out;
+}
+
+#iron-man.attack .repulsor-beam {
+    opacity: 1;
+    width: 800px;
+    /* Shoot across screen */
+}
+
+.repulsor-beam {
+    position: absolute;
+    top: 90px;
+    /* Align with arm height when raised */
+    right: 30px;
+    /* Start from hand */
+    width: 0px;
+    height: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--arc-blue), 0 0 40px var(--arc-blue), 0 0 80px var(--arc-blue);
+    opacity: 0;
+    transform-origin: right center;
+    transition: width 0.2s linear, opacity 0.1s;
+    z-index: 5;
+}
+
+/* --- Captain America --- */
+#captain-america {
+    left: 15%;
+    transform: translateX(-200%);
+    /* Start off screen */
+}
+
+.cap-body {
+    position: relative;
+    width: 130px;
+    height: 220px;
+}
+
+.cap-head {
+    width: 50px;
+    height: 60px;
+    background: var(--cap-blue);
+    border-radius: 15px 15px 25px 25px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.cap-head::after {
+    /* A */
+    content: 'A';
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 2px;
+    left: 18px;
+    font-weight: bold;
+}
+
+.cap-torso {
+    width: 90px;
+    height: 100px;
+    background: var(--cap-blue);
+    margin: -5px auto 0;
+    border-radius: 10px;
+    position: relative;
+    border-bottom: 20px solid var(--cap-red);
+    /* Stripes hint */
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.cap-torso .star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: var(--cap-white);
+    width: 40px;
+    height: 40px;
+}
+
+.cap-arm {
+    width: 35px;
+    height: 100px;
+    background: var(--cap-blue);
+    position: absolute;
+    top: 60px;
+}
+
+.cap-arm.left {
+    left: -25px;
+    transform: rotate(10deg);
+}
+
+.cap-arm.right {
+    right: -25px;
+    transform: rotate(-10deg);
+}
+
+.cap-legs {
+    width: 70px;
+    height: 100px;
+    background: var(--cap-blue);
+    /* Boots */
+    margin: -5px auto 0;
+}
+
+.shield {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--shield-metal);
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    /* Holding position */
+    transform: rotateY(40deg);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.shield-ring {
+    border-radius: 50%;
+    position: absolute;
+}
+
+.shield-ring.red-outer {
+    width: 100%;
+    height: 100%;
+    border: 15px solid var(--cap-red);
+}
+
+.shield-ring.white {
+    width: 70%;
+    height: 70%;
+    border: 15px solid var(--cap-white);
+}
+
+.shield-ring.red-inner {
+    width: 40%;
+    height: 40%;
+    border: 15px solid var(--cap-red);
+}
+
+.shield-star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    background: var(--cap-white);
+    width: 30%;
+    height: 30%;
+}
+
+/* --- Cap Block State --- */
+#captain-america.block .shield {
+    transform: rotateY(0deg) scale(1.1) translateZ(20px);
+    left: 5px;
+    /* Center shield */
+    top: 40px;
+}
+
+#captain-america.block .cap-body {
+    transform: rotate(-10deg) translateY(10px);
+    /* Brace for impact */
+    transition: transform 0.2s;
+}
+
+/* --- Animations --- */
+.fly-in {
+    animation: flyInRight 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.run-in {
+    animation: runInLeft 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes flyInRight {
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes runInLeft {
+    to {
+        transform: translateX(0);
+    }
+}
+
+.impact-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.flash-anim {
+    animation: flash 0.2s ease-out;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.shake-screen {
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(1px, 1px) rotate(0deg);
+    }
+
+    10% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-3px, 0px) rotate(1deg);
+    }
+
+    30% {
+        transform: translate(3px, 2px) rotate(0deg);
+    }
+
+    40% {
+        transform: translate(1px, -1px) rotate(1deg);
+    }
+
+    50% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+    }
+
+    60% {
+        transform: translate(-3px, 1px) rotate(0deg);
+    }
+
+    70% {
+        transform: translate(3px, 1px) rotate(-1deg);
+    }
+
+    80% {
+        transform: translate(-1px, -1px) rotate(1deg);
+    }
+
+    90% {
+        transform: translate(1px, 2px) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+/* Particles */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffaa00;
+    border-radius: 50%;
+    box-shadow: 0 0 10px orange;
+    pointer-events: none;
+}
+
+/* --- HUD Layer --- */
+.hud-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.hud-active .hud-layer {
+    opacity: 1;
+}
+
+.hud-ring {
+    position: absolute;
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hud-ring.outer {
+    width: 600px;
+    height: 600px;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: spin 10s linear infinite;
+}
+
+.hud-ring.inner {
+    width: 300px;
+    height: 300px;
+    border: 1px dashed rgba(0, 255, 255, 0.5);
+    animation: spin 5s linear infinite reverse;
+}
+
+.hud-reticle {
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    /* Tracks Cap's start pos roughly */
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(255, 0, 0, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: left 1s;
+}
+
+.hud-active .hud-reticle {
+    left: 40%;
+    /* Moves to center on impact */
+}
+
+.hud-diagnostics {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: monospace;
+    color: var(--arc-blue);
+    text-align: right;
+    font-size: 1.2rem;
+    text-shadow: 0 0 5px var(--arc-blue);
+}
+
+.diag-line {
+    margin-bottom: 5px;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* --- Interaction Layer --- */
+.interaction-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.choose-title {
+    font-size: 4rem;
+    margin-bottom: 3rem;
+    text-shadow: 0 0 20px white;
+}
+
+.choice-btns {
+    display: flex;
+    gap: 3rem;
+}
+
+.choice-btn {
+    padding: 1.5rem 3rem;
+    font-size: 2rem;
+    font-family: 'Teko', sans-serif;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+    color: white;
+}
+
+.choice-btn.iron {
+    background: var(--iron-man-red);
+    box-shadow: 0 0 20px var(--iron-man-gold);
+}
+
+.choice-btn.iron:hover {
+    background: var(--iron-man-gold);
+    color: black;
+    transform: scale(1.1);
+}
+
+.choice-btn.cap {
+    background: var(--cap-blue);
+    box-shadow: 0 0 20px var(--cap-white);
+}
+
+.choice-btn.cap:hover {
+    background: var(--cap-white);
+    color: black;
+    transform: scale(1.1);
+}

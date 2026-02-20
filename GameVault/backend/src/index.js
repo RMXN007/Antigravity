@@ -4,6 +4,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 connectDB()
-    .then(
+    .then(() => {
+        console.log("Mongoose connected");
+    })
+    .catch((error) => {
+        console.log("Mongoose connection error", error);
+    })
 
-)

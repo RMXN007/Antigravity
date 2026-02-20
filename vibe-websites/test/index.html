@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civil War: The Final Fight</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="arena">
+        <!-- Atmosphere -->
+        <div class="snow-container"></div>
+        <div class="fog-layer"></div>
+
+        <!-- HUD Layer -->
+        <div class="hud-layer">
+            <div class="hud-ring outer"></div>
+            <div class="hud-ring inner"></div>
+            <div class="hud-diagnostics">
+                <div class="diag-line">SYSTEM: ONLINE</div>
+                <div class="diag-line">TARGET: CAPTAIN ROGERS</div>
+                <div class="diag-line" id="power-level">PWR: 100%</div>
+            </div>
+            <div class="hud-reticle"></div>
+        </div>
+
+        <!-- Characters -->
+        <div class="character-container" id="iron-man">
+            <div class="iron-man-body">
+                <div class="head"></div>
+                <div class="torso">
+                    <div class="arc-reactor"></div>
+                </div>
+                <div class="arm left"></div>
+                <div class="arm right">
+                    <div class="repulsor-glow"></div>
+                </div>
+                <div class="legs"></div>
+                <div class="repulsor-beam"></div>
+            </div>
+        </div>
+
+        <div class="character-container" id="captain-america">
+            <div class="cap-body">
+                <div class="cap-head"></div>
+                <div class="cap-torso">
+                    <div class="star"></div>
+                </div>
+                <div class="cap-arm left"></div>
+                <div class="cap-arm right"></div>
+                <div class="cap-legs"></div>
+                <div class="shield">
+                    <div class="shield-ring red-outer"></div>
+                    <div class="shield-ring white"></div>
+                    <div class="shield-ring red-inner"></div>
+                    <div class="shield-star"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Effects -->
+        <div class="impact-flash"></div>
+        <div id="particles-container"></div>
+
+        <!-- UI -->
+        <div class="ui-layer" id="ui-layer">
+            <h1 class="title">CIVIL WAR</h1>
+            <button id="start-btn">REENACT FIGHT</button>
+        </div>
+
+        <!-- Interaction Layer (Hidden by default) -->
+        <div class="interaction-layer" id="interaction-layer" style="display: none;">
+            <h2 class="choose-title">CHOOSE YOUR SIDE</h2>
+            <div class="choice-btns">
+                <button class="choice-btn iron" id="btn-iron">TEAM IRON MAN</button>
+                <button class="choice-btn cap" id="btn-cap">TEAM CAP</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
